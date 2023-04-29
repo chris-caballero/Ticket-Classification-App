@@ -7,7 +7,8 @@
     * TicketDataset is the class I used to transform the data in the dataset object into the correct format for the dataloader object. This also works as a generator which increases overall efficiency.
     * For more information, you can see the code in the **utils** folder under **data.py**.
 <br>
-![Alt text](https://github.com/chris-caballero/Ticket-Classification/blob/main/image.png)
+
+<img src="./image.png" alt="Alt text" title="Optional title">
 
 <br>
 * Models:

@@ -1,11 +1,11 @@
 ### Algorithms Term Project
 ***
-    * **Note:** I have spent time practicing prompt engineering with chatGPT and used this as a tool to outline and laydown some of the code I developed in this assignment. I treated this as outside information equivalent to StackOverflow and changed the implementation to fit my style and usage. I did not copy and paste any code. I also spent time verifying that all phases of my project work as intended.
-    * The parts which used chatGPT to lay the groundwork are the Dataset class implementation and the CrossValidation method (which is used in model_eval.py to generate the reported scores).
-    * Besides this I mainly used it for some general formatting and cleaning up of the code I wrote along with debugging.
-    * Dataset:
-    * TicketDataset is the class I used to transform the data in the dataset object into the correct format for the dataloader object. This also works as a generator which increases overall efficiency.
-    * For more information, you can see the code in the **utils** folder under **data.py**.
+* **Note:** I have spent time practicing prompt engineering with chatGPT and used this as a tool to outline and laydown some of the code I developed in this assignment. I treated this as outside information equivalent to StackOverflow and changed the implementation to fit my style and usage. I did not copy and paste any code. I also spent time verifying that all phases of my project work as intended.
+* The parts which used chatGPT to lay the groundwork are the Dataset class implementation and the CrossValidation method (which is used in model_eval.py to generate the reported scores).
+* Besides this I mainly used it for some general formatting and cleaning up of the code I wrote along with debugging.
+* Dataset:
+* TicketDataset is the class I used to transform the data in the dataset object into the correct format for the dataloader object. This also works as a generator which increases overall efficiency.
+* For more information, you can see the code in the **utils** folder under **data.py**.
 <br>
 
 <img src="./image.png" alt="Alt text" title="Optional title">

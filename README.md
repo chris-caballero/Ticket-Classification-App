@@ -7,7 +7,7 @@
     * TicketDataset is the class I used to transform the data in the dataset object into the correct format for the dataloader object. This also works as a generator which increases overall efficiency.
     * For more information, you can see the code in the **utils** folder under **data.py**.
 <br>
-![alt text](https://github.com/chris-caballero/Ticket-Classification/blob/image.png?raw=true)
+![alt text](https://github.com/chris-caballero/Ticket-Classification/blob/main/image.png?raw=true)
 * Models:
     * **EncoderTransformer** is my implementation of a transformer ticket classifier.
     * **ConvNet** is my approximation of the neural network described in the paper: *Hyperparameter Black-Box Optimization to Improve the Automatic Classification of Support Tickets*, which I am trying to improve upon with my EncoderTranformer.

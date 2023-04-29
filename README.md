@@ -10,7 +10,6 @@
 
 <img src="./image.png" alt="Alt text" title="Optional title">
 
-<br>
 * Models:
     * **EncoderTransformer** is my implementation of a transformer ticket classifier.
     * **ConvNet** is my approximation of the neural network described in the paper: *Hyperparameter Black-Box Optimization to Improve the Automatic Classification of Support Tickets*, which I am trying to improve upon with my EncoderTranformer.

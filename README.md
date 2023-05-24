@@ -20,16 +20,16 @@ Here's an organized version of the given markdown:
 
 ## Contents
 
-### data:
+#### data:
 This folder contains the preprocessed tickets used for training the models.
 
-### logs:
+#### logs:
 The folder used to hold logging outputs from my Python training script. Contains results which are described in the project report.
 
-### models:
+#### models:
 Here we have the trained models which can be used to achieve similar results on inference.
 
-### scripts:
+#### scripts:
 Contains a variety of scripts which I wrote to test and handle different aspects of the project. The main scripts are present in the root of this folder.
 
 - **model_eval.py**:
@@ -38,10 +38,10 @@ Contains a variety of scripts which I wrote to test and handle different aspects
 - **ticket_classification.py**:
   This is the barebones script which creates a model, trains it, and saves it. Code for each model is commented out to selectively train the model in question.
 
-### project.ipynb:
+#### project.ipynb:
 Contains a well-documented overview of the main aspects of the project along with some performance scores at the end.
 
-### utils:
+#### utils:
 This folder contains a large number of classes and methods I created to run the code and get the results I used.
 
 - **data.py**:

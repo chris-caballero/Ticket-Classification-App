@@ -1,4 +1,4 @@
-### Algorithms Term Project
+### Support Ticket Classification
 ***
 * **Note:** I have spent time practicing prompt engineering with chatGPT and used this as a tool to outline and laydown some of the code I developed in this assignment. I treated this as outside information equivalent to StackOverflow and changed the implementation to fit my style and usage. I did not copy and paste any code. I also spent time verifying that all phases of my project work as intended.
 * The parts which used chatGPT to lay the groundwork are the Dataset class implementation and the CrossValidation method (which is used in model_eval.py to generate the reported scores).

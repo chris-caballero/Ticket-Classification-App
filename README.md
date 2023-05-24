@@ -16,32 +16,44 @@
     * **BertClassifier** is derived from https://github.com/marcellusruben/medium-resources/blob/main/Text_Classification_BERT/bert_medium.ipynb
     * The first two models are the main focus of the project, the Bert model was just out of interest to see how a much larger pre-trained language model did when finetuned on this task.
 
-#### Contents
-***
-* **data:** 
-    * This folder contains the preprocessed tickets used for training the models.
-* **logs:**
-    * The folder used to hold logging outputs from my python training script.
-    * Contains results which are described in the project report. 
-* **models:**
-    * Here we have the trained models which can be used to achieve similar results on inference.
-* **scripts:** 
-    * Contains a variety of scripts which I wrote to test and handle different aspects of the project. The main scripts are present in the root of this folder. 
-    * **model_eval.py:**
-        * This script was used to log the cross-validation performance of the models. This script should run 10-fold cross-validation on each of the models and get the respective scores.
-    * **ticket_classification.py:**
-        * This is the barebones script which creates a model, trains it and saves it. Code for each model is commented out to selectively train the model in question.
-    * **project.ipynb:**
-        * Contains a well-documented overview of the main aspects of the project along with some performance scores at the end.
-    * **utils:**
-        * This folder contains a large number of classes and methods I created to run the code and get the results I used. 
-        * **data.py:**
-            * Contains methods and classes related to the Dataset/Dataloader the model is trained on.
-        * **models.py:**
-            * Contains the model I created and those I derived from the referenced works.
-        * **model_utils.py:**
-            * Contains methods for working with said models.
-        * **utils.py**
-            * Contains a variety of general helper functions.
+Here's an organized version of the given markdown:
 
+## Contents
 
+### data:
+This folder contains the preprocessed tickets used for training the models.
+
+### logs:
+The folder used to hold logging outputs from my Python training script. Contains results which are described in the project report.
+
+### models:
+Here we have the trained models which can be used to achieve similar results on inference.
+
+### scripts:
+Contains a variety of scripts which I wrote to test and handle different aspects of the project. The main scripts are present in the root of this folder.
+
+- **model_eval.py**:
+  This script was used to log the cross-validation performance of the models. This script should run 10-fold cross-validation on each of the models and get the respective scores.
+
+- **ticket_classification.py**:
+  This is the barebones script which creates a model, trains it, and saves it. Code for each model is commented out to selectively train the model in question.
+
+### project.ipynb:
+Contains a well-documented overview of the main aspects of the project along with some performance scores at the end.
+
+### utils:
+This folder contains a large number of classes and methods I created to run the code and get the results I used.
+
+- **data.py**:
+  Contains methods and classes related to the Dataset/Dataloader the model is trained on.
+
+- **models.py**:
+  Contains the model I created and those I derived from the referenced works.
+
+- **model_utils.py**:
+  Contains methods for working with said models.
+
+- **utils.py**:
+  Contains a variety of general helper functions.
+
+This organization provides clear headings and subheadings for each section and improves the readability and understanding of the file structure in the repository.

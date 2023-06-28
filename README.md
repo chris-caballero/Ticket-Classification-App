@@ -12,13 +12,17 @@
 
 * Models:
     * **EncoderTransformer** is my implementation of a transformer ticket classifier.
-<img src="./models/imgs/model3.png" alt="Alt text" title="Optional title">
-    * **ConvNet** is my approximation of the neural network described in the paper: *Hyperparameter Black-Box Optimization to Improve the Automatic Classification of Support Tickets*, which I am trying to improve upon with my EncoderTranformer.
- <img src="./models/imgs/model1.png" alt="Alt text" title="Optional title">
-    * **BertClassifier** is derived from https://github.com/marcellusruben/medium-resources/blob/main/Text_Classification_BERT/bert_medium.ipynb
-    * The first two models are the main focus of the project, the Bert model was just out of interest to see how a much larger pre-trained language model did when finetuned on this task.
- <img src="./models/imgs/model2.png" alt="Alt text" title="Optional title">
-Here's an organized version of the given markdown:
+   * **ConvNet** is my approximation of the neural network described in the paper: *Hyperparameter Black-Box Optimization to Improve the Automatic Classification of Support Tickets*, which I am trying to improve upon with my EncoderTranformer. 
+   * **BertClassifier** is derived from https://github.com/marcellusruben/medium-resources/blob/main/Text_Classification_BERT/bert_medium.ipynb
+   * The first two models are the main focus of the project, the Bert model was just out of interest to see how a much larger pre-trained language model did when finetuned on this task.
+<br>
+
+<div>
+ <img src="./models/imgs/model-3.png" alt="Alt text" title="Optional title" width="300" height="600">
+ <img src="./models/imgs/model-1.png" alt="Alt text" title="Optional title" width="300" height="600">
+ <img src="./models/imgs/model-2.png" alt="Alt text" title="Optional title" width="300" height="600">
+</div>
+
 
 ## Contents
 

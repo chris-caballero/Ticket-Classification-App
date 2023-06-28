@@ -18,7 +18,7 @@
 <br>
 
 <div>
- <img src="./models/imgs/model-3.png" alt="Alt text" title="Optional title" width="300" height="500">
+ <img src="./models/imgs/model-3.png" alt="Alt text" title="Optional title" width="250" height="500">
  <img src="./models/imgs/model-1.png" alt="Alt text" title="Optional title" width="300" height="500">
  <img src="./models/imgs/model-2.png" alt="Alt text" title="Optional title" width="150" height="500">
 </div>

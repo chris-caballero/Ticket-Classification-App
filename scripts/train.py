@@ -17,8 +17,8 @@ logging.basicConfig(
 )
 
 save_models = True
-TICKETS_PATH = '../data/preprocessed_labeled_complaints.pkl'
-TRAINED_MODEL_PATH = '../trained_models/text_classification_model.pth'
+TICKETS_FILE = '../data/preprocessed_labeled_complaints.pkl'
+TRAINED_MODEL_FILE = '../trained_models/text_classification_model.pth'
 
 # HYPER-PARAMETERS
 epochs = 5
@@ -33,7 +33,7 @@ logging.info(f'Device: {device}')
 logging.info('Loading Tickets Dataset')
 
 # Loads the processed an d labeled support tickets from file
-complaints = pd.read_pickle(TICKETS_PATH)
+complaints = pd.read_pickle(TICKETS_FILE)
 
 # Load the tokenizer and create the dataset using our TicketDataset class
 tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
@@ -42,9 +42,6 @@ trainset, testset = to_dataloader(dataset, split=0.8)
 vocabulary_size = len(dataset.tokenizer.vocab)
 
 logging.info('Done!')
-
-# Get the appropriate class weights for the cnn model
-labels = torch.tensor([val for val in complaints['label']])
 
 if __name__ == '__main__':
     multiprocessing.freeze_support()
@@ -66,7 +63,7 @@ if __name__ == '__main__':
     # SAVE MODELS
     if save_models:
         logging.info('Saving Models')
-        torch.save(model.state_dict(), TRAINED_MODEL_PATH)
+        torch.save(model.state_dict(), TRAINED_MODEL_FILE)
         logging.info('Done!')
 
 

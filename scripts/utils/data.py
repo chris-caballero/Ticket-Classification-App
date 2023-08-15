@@ -40,7 +40,7 @@ class TicketDataset(Dataset):
             text,
             add_special_tokens=True,
             max_length=self.block_size,
-            pad_to_max_length=True,
+            padding='max_length',
             return_attention_mask=True,
             return_tensors='pt',
             truncation=True

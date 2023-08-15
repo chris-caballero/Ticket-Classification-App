@@ -1,16 +1,37 @@
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset, DataLoader, random_split
 
 class TicketDataset(Dataset):
+    """Custom PyTorch Dataset for support ticket classification."""
+
     def __init__(self, data, tokenizer, field='complaint_nouns', block_size=200):
+        """
+        Initialize the TicketDataset.
+
+        Args:
+            data (pd.DataFrame): The dataset containing ticket data.
+            tokenizer: The tokenizer used to tokenize the text.
+            field (str): The field in the dataset containing text data.
+            block_size (int): Maximum sequence length for tokenization.
+        """
         self.data = data
         self.field = field
         self.tokenizer = tokenizer
         self.block_size = block_size
 
     def __len__(self):
+        """Return the length of the dataset."""
         return len(self.data)
 
     def __getitem__(self, idx):
+        """
+        Get an item from the dataset.
+
+        Args:
+            idx (int): Index of the item.
+
+        Returns:
+            dict: A dictionary containing input_ids, attention_mask, and labels.
+        """
         text = self.data[self.field].iloc[idx]
         label = self.data['label'].iloc[idx]
 
@@ -35,7 +56,18 @@ class TicketDataset(Dataset):
         }
 
 
+
 def create_dataloader(dataset, batch_size=16):
+    """
+    Create a DataLoader for the given dataset.
+
+    Args:
+        dataset: The dataset to create the DataLoader from.
+        batch_size (int): Batch size for the DataLoader.
+
+    Returns:
+        DataLoader: The created DataLoader.
+    """
     return DataLoader(
         dataset,
         batch_size=batch_size,
@@ -44,20 +76,27 @@ def create_dataloader(dataset, batch_size=16):
     )
 
 
-def to_dataloader(dataset, batch_size=16, split=0.8):
-    from torch.utils.data import random_split
 
+def to_dataloader(dataset, batch_size=16, split=0.8):
+    """
+    Convert a dataset to DataLoader(s) with optional train-test split.
+
+    Args:
+        dataset: The dataset to convert to DataLoader(s).
+        batch_size (int): Batch size for the DataLoader(s).
+        split (float): Train-test split ratio (0.0 to 1.0).
+
+    Returns:
+        DataLoader or tuple of DataLoaders: The created DataLoader(s).
+    """
     if split >= 1 or split <= 0:
         return create_dataloader(dataset, batch_size=batch_size)
 
-    # Define the length of the dataset and the sizes of the training and testing sets
     train_size = int(len(dataset) * split)
     test_size = len(dataset) - train_size
 
-    # Split the dataset into training and testing sets
     train_dataset, test_dataset = random_split(dataset, [train_size, test_size])
 
-    # Create data loaders for the training and testing sets
     train = create_dataloader(train_dataset, batch_size=batch_size)
     test = create_dataloader(test_dataset, batch_size=batch_size)
 

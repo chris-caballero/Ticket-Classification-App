@@ -6,7 +6,7 @@ import logging
 import multiprocessing
 from transformers import AutoTokenizer
 from utils.data import TicketDataset, to_dataloader
-from utils.models import BertClassifier, ConvNet, EncoderTransformer, HierarchicalAttentionNetwork
+from utils.models import BertClassifier, ConvNet, EncoderTransformer
 from utils.model_utils import get_class_weights, train, evaluate, train_and_evaluate, cnn_train_eval, transformer_train_eval
 
 warnings.simplefilter(action='ignore', category=FutureWarning)

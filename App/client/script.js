@@ -24,7 +24,7 @@ classifyButton.addEventListener('click', async () => {
 
       if (response.ok) {
           const data = await response.json();  // Parse JSON response
-          resultDiv.textContent = `Predicted Class: ${data.predicted_class}`;  // Access 'predicted_class' key
+          resultDiv.textContent = `Predicted Class: ${data.predicted_class}\n\nIt seems like you have a ${data.topic} problem`;  // Access 'predicted_class' key
       } else {
           resultDiv.textContent = 'Failed to classify.';
       }

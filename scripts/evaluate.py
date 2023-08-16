@@ -22,10 +22,10 @@ def main():
 
     # FILES
     TICKETS_FILE = '../data/preprocessed_labeled_complaints.pkl'
-    MODEL_FILE = '../trained_models/text_classification_model.pth'
+    # MODEL_FILE = '../trained_models/text_classification_model.pth'
+    MODEL_FILE = 'best_model.pth'
 
     # HYPER-PARAMETERS
-    epochs = 5
     block_size = 200
     num_classes = 5
     embedding_dim = 300

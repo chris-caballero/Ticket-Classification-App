@@ -9,11 +9,12 @@ from flask import Flask, request, jsonify, send_from_directory
 
 # HYPER-PARAMETERS
 
+topics = ['Bank Account Services', 'Credit card / Prepaid card', 'Others', 'Theft / Dispute reporting', 'Mortgages / Loans']
 BLOCK_SIZE = 200
 NUM_CLASSES = 5
 EMBEDDING_DIM = 300
 
-MODEL_PATH = 'models/trained_models/text_classification_model.pth'
+MODEL_PATH = 'models/trained_models/text_classification_no-pos.pth'
 model, tokenizer = None, None
 
 app = Flask(__name__, static_folder='../client')
@@ -29,8 +30,8 @@ def serve_static(filename):
 @app.route('/classify', methods=['POST'])
 def classify():
     text = request.json['text']
-    predicted_class = classify_text(text)
-    return jsonify({'predicted_class': predicted_class})
+    topic, predicted_class = classify_text(text)
+    return jsonify({'topic': topic, 'predicted_class': predicted_class})
 
 def classify_text(text):
     input_ids = preprocess_and_encode_text(text)
@@ -40,7 +41,7 @@ def classify_text(text):
         outputs = model(input_ids=input_ids)
         predicted_class = torch.argmax(outputs, dim=1).item()
     
-    return predicted_class
+    return topics[predicted_class], predicted_class
 
 def preprocess_and_encode_text(text):
     text = preprocessing_fn(text)

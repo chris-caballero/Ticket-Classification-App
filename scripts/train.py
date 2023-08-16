@@ -28,6 +28,7 @@ def main():
     save_models = True
     TICKETS_FILE = '../data/preprocessed_labeled_complaints.pkl'
     TRAINED_MODEL_FILE = '../trained_models/text_classification_model.pth'
+    SERVING_MODEL_FILE = '../App/server/models/trained_models/text_classification_model-2.pth'
 
     # HYPER-PARAMETERS
     epochs = 5
@@ -44,7 +45,7 @@ def main():
 
     # Load the tokenizer and create the dataset using our TicketDataset class
     tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
-    dataset = TicketDataset(complaints, tokenizer)
+    dataset = TicketDataset(complaints, tokenizer, field='complaint')
     trainset, testset = to_dataloader(dataset, split=0.8)
     vocabulary_size = len(dataset.tokenizer.vocab)
 
@@ -67,6 +68,7 @@ def main():
     if save_models:
         logging.info('Saving Models')
         torch.save(model.state_dict(), TRAINED_MODEL_FILE)
+        torch.save(model.state_dict(), SERVING_MODEL_FILE)
         logging.info('Done!')
 
 if __name__ == '__main__':

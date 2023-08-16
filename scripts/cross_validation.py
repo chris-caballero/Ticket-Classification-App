@@ -7,63 +7,56 @@ from utils.data import TicketDataset
 from utils.models import EncoderTransformer
 from utils.model_utils import ModelCrossValidation
 
-logging.basicConfig(
-    level=logging.INFO, 
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    filename='../model_performance_2.log'
-)
+def setup_logging(log_filename):
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        filename=log_filename
+    )
 
-# FILES
-TICKETS_FILE = '../data/preprocessed_labeled_complaints.pkl'
-MODEL_FILE = '../trained_models/text_classification_model.pth'
+def load_tickets_dataset(file_path):
+    complaints = pd.read_pickle(file_path)
+    return complaints
 
+def main():
+    setup_logging('logs/crossval_log')
 
-# HYPER-PARAMETERS
-cut = 0
-epochs = 5
-num_ticket_classes = 5
-num_filters = 512
-embedding_dim = 300
-block_size = 200
-filter_sizes = [5, 4, 3]
-device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    # FILES
+    TICKETS_FILE = '../data/preprocessed_labeled_complaints.pkl'
+    MODEL_FILE = '../trained_models/text_classification_model.pth'
 
-logging.info('Loading Tickets Dataset')
+    # HYPER-PARAMETERS
+    epochs = 5
+    num_classes = 5
+    embedding_dim = 300
+    block_size = 200
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-# Loads the processed and labeled support tickets from file
-complaints = pd.read_pickle(TICKETS_FILE)
-complaints = complaints[:-int(cut*len(complaints))] if cut else complaints
+    logging.info('Loading Tickets Dataset')
 
-# Sets up the DataLoaders
-tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
-dataset = TicketDataset(complaints, tokenizer, field='complaint', block_size=block_size)
-vocabulary_size = len(dataset.tokenizer.vocab)
+    # Loads the processed and labeled support tickets from file
+    complaints = load_tickets_dataset(TICKETS_FILE)
 
-logging.info('Done!')
-logging.info('Loading Models')
+    # Sets up the DataLoaders
+    tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
+    dataset = TicketDataset(complaints, tokenizer)
+    vocabulary_size = len(dataset.tokenizer.vocab)
 
-# Load quantized model
-# quantized_model = EncoderTransformer(vocabulary_size, embedding_dim, block_size, num_ticket_classes).to(device)
-# quantized_model.load_state_dict(torch.load('path/to/quantized_model.pt'))
+    logging.info('Done!')
+    logging.info('Loading Models')
 
-model = EncoderTransformer(vocabulary_size, embedding_dim, block_size, num_ticket_classes).to(device)
-model.load_state_dict(torch.load(MODEL_FILE))
+    model = EncoderTransformer(vocabulary_size, embedding_dim, block_size, num_classes).to(device)
 
-
-logging.info('Done!')
-
-labels = torch.tensor([val for val in complaints['label']])
-if __name__ == '__main__':
-    multiprocessing.freeze_support()
+    logging.info('Done!')
 
     logging.info('Evaluating Models')
 
     validator = ModelCrossValidation(
-        model=model, 
-        batch_size=32, 
-        epochs=5, 
-        is_bert=False, 
-        device=device, 
+        model=model,
+        batch_size=32,
+        epochs=epochs,
+        is_bert=False,
+        device=device,
         num_splits=5,
         verbose=True
     )
@@ -76,4 +69,6 @@ if __name__ == '__main__':
     print(f'Transformer Scores: {transformer_scores}')
     print(f'Transformer 10-Fold Cross Validation: {transformer_crossval}')
 
-
+if __name__ == '__main__':
+    multiprocessing.freeze_support()
+    main()

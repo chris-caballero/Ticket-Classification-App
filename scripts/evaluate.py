@@ -7,41 +7,42 @@ from utils.data import TicketDataset, to_dataloader
 from utils.models import EncoderTransformer
 from utils.model_utils import evaluate
 
-logging.basicConfig(
-    level=logging.INFO, 
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    filename='../model_performance_2.log'
-)
+def setup_logging(log_filename):
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        filename=log_filename
+    )
 
-# FILES
-TICKETS_FILE = '../data/preprocessed_labeled_complaints.pkl'
-MODEL_FILE = '../trained_models/text_classification_model.pth'
+def load_tickets_dataset(file_path):
+    return pd.read_pickle(file_path)
 
+def main():
+    setup_logging('logs/evaluate_log')
 
-# HYPER-PARAMETERS
-epochs = 5
-n_embed = 32
-block_size = 200
-num_classes = 5
-num_filters = 512
-embedding_dim = 300
-device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    # FILES
+    TICKETS_FILE = '../data/preprocessed_labeled_complaints.pkl'
+    MODEL_FILE = '../trained_models/text_classification_model.pth'
 
-logging.info('Loading Tickets Dataset')
+    # HYPER-PARAMETERS
+    epochs = 5
+    block_size = 200
+    num_classes = 5
+    embedding_dim = 300
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-# Loads the processed and labeled support tickets from file
-complaints = pd.read_pickle(TICKETS_FILE)
+    logging.info('Loading Tickets Dataset')
 
-# Sets up the DataLoaders
-tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
-dataset = TicketDataset(complaints, tokenizer)
-dataloader = to_dataloader(dataset, split=1)
-vocabulary_size = len(dataset.tokenizer.vocab)
+    # Loads the processed and labeled support tickets from file
+    complaints = load_tickets_dataset(TICKETS_FILE)
 
-logging.info('Done!')
+    # Sets up the DataLoaders
+    tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
+    dataset = TicketDataset(complaints, tokenizer)
+    dataloader = to_dataloader(dataset, split=1)
+    vocabulary_size = len(dataset.tokenizer.vocab)
 
-if __name__ == '__main__':
-    multiprocessing.freeze_support()
+    logging.info('Done!')
 
     logging.info('Loading Models')
 
@@ -53,7 +54,9 @@ if __name__ == '__main__':
     
     accuracy = evaluate(model, dataloader, device=device)
 
-    print('-'*50 + '\nTRANSFORMER\n' + '-'*50)
+    print('-' * 50 + '\nTRANSFORMER\n' + '-' * 50)
     print('Accuracy:', accuracy)
 
-
+if __name__ == '__main__':
+    multiprocessing.freeze_support()
+    main()

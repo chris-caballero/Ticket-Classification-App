@@ -2,11 +2,14 @@ const classifyButton = document.getElementById('custom-button');
 const inputText = document.getElementById('text-area-1');
 const resultDiv = document.getElementById('result');
 
-function classifyText() {
+function classifyText(event) {
+    event.preventDefault();
+
     const text = inputText.value;
 
     if (text.length === 0) {
         document.getElementById("text-required").style.display = 'block';
+        resultDiv.innerHTML = '';
         return;
     } else {
         document.getElementById("text-required").style.display = 'none';

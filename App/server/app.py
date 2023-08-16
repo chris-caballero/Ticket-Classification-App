@@ -1,25 +1,35 @@
-import torch
-import requests
-from transformers import AutoTokenizer
-from preprocessing_util import *
-from models.model_schema.model import EncoderTransformer
-from torch import from_numpy, tensor
-from torch.nn.functional import softmax
+import html
+import logging
 from flask import Flask, request, jsonify, send_from_directory
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from flask_caching import Cache
+from utils.model_utils import *
+from utils.globals import *
 
-# HYPER-PARAMETERS
+# Set up logging
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
-topics = ['Bank Account Services', 'Credit card / Prepaid card', 'Others', 'Theft / Dispute reporting', 'Mortgages / Loans']
-BLOCK_SIZE = 200
-NUM_CLASSES = 5
-EMBEDDING_DIM = 300
 
-model_type = 'no-pos'
-MODEL_PATH = f'models/trained_models/text_classification_{model_type}.pth'
-model = None
-tokenizer = None
+model_type='no-pos'
+tokenizer = load_tokenizer()
+model = load_model(
+    path=MODEL_PATH, 
+    vocab_size=len(tokenizer.vocab), 
+    embedding_dim=EMBEDDING_DIM, 
+    block_size=BLOCK_SIZE, 
+    num_classes=NUM_CLASSES
+)
 
 app = Flask(__name__, static_folder='../client')
+limiter = Limiter(
+    app=app,
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri='memory://'
+)
+cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
 @app.route('/')
 def serve_index():
@@ -30,57 +40,47 @@ def serve_static(filename):
     return send_from_directory('../client', filename)
 
 @app.route('/select_model', methods=['POST'])
+@limiter.limit("1/second")
 def select_model():
-    model_type = request.form['text']
+    try:
+        model_type = request.form['text']
 
-    print(model_type)
-    MODEL_PATH = f'models/trained_models/text_classification_{model_type}.pth'
-    model = load_model(MODEL_PATH)
+        if model_type not in ALLOWED_MODELS:
+            return jsonify({'error': 'Invalid model type.'}), 400
 
-    return jsonify({'model': model_type})
+        logger.info(f"Selected model: {model_type}")
+
+        cached_model = cache.get(model_type)
+        if cached_model is None:
+            MODEL_PATH = f'models/trained_models/text_classification_{model_type}.pth'
+            model = load_model(
+                path=MODEL_PATH, 
+                vocab_size=len(tokenizer.vocab), 
+                embedding_dim=EMBEDDING_DIM, 
+                block_size=BLOCK_SIZE, 
+                num_classes=NUM_CLASSES
+            )
+            cache.set(model_type, model)
+        else:
+            model = cached_model
+
+        return jsonify({'model': model_type})
+
+    except Exception as e:
+        logger.error(f"Error in /select_model: {e}")
+        return jsonify({'error': 'An error occurred while selecting the model.'}), 500
 
 @app.route('/classify', methods=['POST'])
+@limiter.limit("1/second")
 def classify():
-    text = request.json['text']
-    topic, predicted_class = classify_text(text)
-    return jsonify({'topic': topic, 'predicted_class': predicted_class})
-
-def classify_text(text):
-    input_ids = preprocess_and_encode_text(text)
-
-    with torch.no_grad():
-        outputs = model(input_ids=input_ids)
-        predicted_class = torch.argmax(outputs, dim=1).item()
-    
-    return topics[predicted_class], predicted_class
-
-def preprocess_and_encode_text(text, model_type='no-pos'):
-    # Apply necessary preprocessing based on model type, 'route' model in future
-    text = preprocessing_fn(text, model_type=model_type)
-
-    # Tokenize the text and create input_ids
-    encoding = tokenizer.encode_plus(
-        text,
-        add_special_tokens=True,
-        max_length=BLOCK_SIZE,
-        padding='max_length',
-        return_tensors='pt',
-        truncation=True
-    )
-
-    return encoding['input_ids'][0].unsqueeze(0)
-
-def load_tokenizer():
-    tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
-    return tokenizer
-
-def load_model(path):
-    model = EncoderTransformer(len(tokenizer.vocab), EMBEDDING_DIM, BLOCK_SIZE, NUM_CLASSES)
-    model.load_state_dict(torch.load(path))
-    return model
+    try:
+        text = request.json['text']
+        sanitized_text = html.escape(text)
+        topic, predicted_class = classify_text(sanitized_text, model, model_type, tokenizer, BLOCK_SIZE)
+        return jsonify({'topic': topic, 'predicted_class': predicted_class})
+    except Exception as e:
+        logger.error(f"Error in /classify: {e}")
+        return jsonify({'error': 'An error occurred while classifying the text.'}), 500
 
 if __name__ == '__main__':
-    tokenizer = load_tokenizer()
-    model = load_model(MODEL_PATH)
-    model.eval()
     app.run()

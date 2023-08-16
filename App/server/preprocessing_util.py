@@ -1,10 +1,12 @@
 import regex as re
 import en_core_web_sm
 
-def preprocessing_fn(x):
+def preprocessing_fn(x, model_type=None):
     x = clean(x)
-    x = lemmatize(x)
-    x = noun_extraction(x)
+    
+    if model_type == 'pos':
+        x = lemmatize(x)
+        x = noun_extraction(x)
 
     return x
 

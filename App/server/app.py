@@ -1,9 +1,11 @@
 import html
 import logging
+
 from flask import Flask, request, jsonify, send_from_directory
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_caching import Cache
+
 from utils.model_utils import *
 from utils.globals import *
 
@@ -15,7 +17,7 @@ logger = logging.getLogger(__name__)
 model_type='no-pos'
 tokenizer = load_tokenizer()
 model = load_model(
-    path=MODEL_PATH, 
+    model_type=model_type, 
     vocab_size=len(tokenizer.vocab), 
     embedding_dim=EMBEDDING_DIM, 
     block_size=BLOCK_SIZE, 
@@ -52,9 +54,8 @@ def select_model():
 
         cached_model = cache.get(model_type)
         if cached_model is None:
-            MODEL_PATH = f'models/trained_models/text_classification_{model_type}.pth'
             model = load_model(
-                path=MODEL_PATH, 
+                model_type=model_type, 
                 vocab_size=len(tokenizer.vocab), 
                 embedding_dim=EMBEDDING_DIM, 
                 block_size=BLOCK_SIZE, 
@@ -81,6 +82,6 @@ def classify():
     except Exception as e:
         logger.error(f"Error in /classify: {e}")
         return jsonify({'error': 'An error occurred while classifying the text.'}), 500
-
+    
 if __name__ == '__main__':
     app.run()

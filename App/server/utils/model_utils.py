@@ -1,7 +1,10 @@
+import os
 import torch
+# from google.cloud import storage
 from models.model_schema.model import EncoderTransformer
 from transformers import AutoTokenizer
 from .preprocessing_utils import preprocessing_fn
+
 
 topics = [
     'Bank Account Services', 
@@ -11,9 +14,19 @@ topics = [
     'Mortgages / Loans'
 ]
 
-def load_model(path, vocab_size, embedding_dim, block_size, num_classes):
+def load_model(model_type, vocab_size, embedding_dim, block_size, num_classes):
+    # bucket = 'ticket-classifier-models-bucket'
+    filename = f'text_classification_{model_type}.pth'
+    path = f'models/trained_models/' + filename
+
+    # client = storage.Client()
+    # bucket = client.bucket(bucket)
+    # blob = bucket.blob(filename)
+    # blob.download_to_filename(path)
+
     model = EncoderTransformer(vocab_size, embedding_dim, block_size, num_classes)
     model.load_state_dict(torch.load(path))
+
     return model
 
 def load_tokenizer():

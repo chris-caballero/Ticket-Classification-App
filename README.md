@@ -1,72 +1,78 @@
-### Support Ticket Classification
+# SupportMe - Text Classification App
 
----
+SupportMe is a web-based text classification application designed to categorize support tickets into different topics. This project demonstrates the end-to-end process of building a text classification application, from data preprocessing to model deployment. The model used, called the EncoderTransformer or ET for short, is a custom language model I developed using PyTorch.
+<br>
+**Note:** This repository used to contain the original model, training and data processing code. Along with a comparative research paper on the project. Since 8/18/2023 this project has been moved [here](https://github.com/chris-caballero/Ticket-Classification-Data.git).
 
-* Dataset:
-  * TicketDataset is the class I used to transform the data in the dataset object into the correct format for the dataloader object. This also works as a generator which increases overall efficiency.
-  * For more information, you can see the code in the **utils** folder under **data.py**.
-    `<br>`
+## Features
 
-<img src="visualizations/top-words.png" alt="top 10 words" title="top 10 words by frequency" width="700" height="300">
+Classify support tickets into predefined topics:
+- Bank Account Services
+- Credit card / Prepaid card
+- Others
+- Theft / Dispute reporting
+- Mortgages / Loans
 
-* Models:
-  * **EncoderTransformer** is my implementation of a transformer ticket classifier.
-  * **ConvNet** is my approximation of the neural network described in the paper: *Hyperparameter Black-Box Optimization to Improve the Automatic Classification of Support Tickets*, which I am trying to improve upon with my EncoderTranformer.
-  * **BertClassifier** is derived from https://github.com/marcellusruben/medium-resources/blob/main/Text_Classification_BERT/bert_medium.ipynb
-  * The first two models are the main focus of the project, the Bert model was just out of interest to see how a much larger pre-trained language model did when finetuned on this task.
-    `<br>`
+Choose between two different models:
+- Model without Part-of-Speech (POS) tagging
+- Model with POS tagging
 
-<div>
- <img src="visualizations/models/imgs/model-3.png" alt="encoder transformer" title="encoder architecture" width="250" height="500">
- <img src="visualizations/models/imgs/model-1.png" alt="cnn" title="cnn architecture" width="300" height="500">
- <img src="visualizations/models/imgs/model-2.png" alt="bert classifier" title="bert classifier architecture" width="150" height="500">
-</div>
+User-friendly web interface for text input and classification
 
-## Contents
+## Project Structure
 
-#### data:
+- **client**: Contains the frontend code of the web application, including HTML, CSS, and JavaScript files.
+- **models**: Holds the trained text classification model and related utilities.
+- **server**: Contains the backend code for the Flask web server.
 
-This folder contains the preprocessed tickets used for training the models.
+## Getting Started
 
-#### logs:
+1. Clone the repository:
 
-The folder used to hold logging outputs from my Python training script. Contains results which are described in the project report.
+   ```bash
+   git clone https://github.com/chris-caballero/Ticket-Classification.git
+   cd supportme-text-classification
+   ```
 
-#### models:
+2. Install the required Python packages:
 
-Here we have the trained models which can be used to achieve similar results on inference.
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-#### scripts:
+3. Run the Flask web server:
 
-Contains a variety of scripts which I wrote to test and handle different aspects of the project. The main scripts are present in the root of this folder.
+   ```bash
+   python app.py
+   ```
 
-- **model_eval.py**:
-  This script was used to log the cross-validation performance of the models. This script should run 10-fold cross-validation on each of the models and get the respective scores.
-- **ticket_classification.py**:
-  This is the barebones script which creates a model, trains it, and saves it. Code for each model is commented out to selectively train the model in question.
+4. Open your web browser and navigate to `http://localhost:5000` to access the SupportMe app.
 
-#### project.ipynb:
+## Technologies Used
 
-Contains a well-documented overview of the main aspects of the project along with some performance scores at the end.
+- Python
+- Flask
+- PyTorch
+- Transformers
+- Bootstrap
 
-#### utils:
+## How It Works
 
-This folder contains a large number of classes and methods I created to run the code and get the results I used.
+1. Users input text in the web interface and select a model type.
+2. The frontend sends the text and model type to the backend API.
+3. The backend preprocesses the text and uses the selected model to predict the topic.
+4. The predicted topic is displayed on the web interface.
 
-- **data.py**:
-  Contains methods and classes related to the Dataset/Dataloader the model is trained on.
-- **models.py**:
-  Contains the model I created and those I derived from the referenced works.
-- **model_utils.py**:
-  Contains methods for working with said models.
+## Future Enhancements
 
----
+- Implement user authentication and user-specific saved classifications.
+- Add support for additional models and fine-tuning options.
+- Improve UI/UX design and responsiveness.
+- Enhance error handling and logging.
+- Deploy the application to a cloud platform for wider accessibility.
+- Add synthetic FAQ database for modeling a support website functionality. This will use the model for topic embeddings and compare user request with the embedding indexed database.
 
-* **Note:** I have spent time practicing prompt engineering with chatGPT and used this as a tool to outline and laydown some of the code I developed in this assignment. I treated this as outside information equivalent to StackOverflow and changed the implementation to fit my style and usage. I did not copy and paste any code. I also spent time verifying that all phases of my project work as intended.
-* The parts which used chatGPT to lay the groundwork are the Dataset class implementation and the CrossValidation method (which is used in model_eval.py to generate the reported scores).
-* Besides this I mainly used it for some general formatting and cleaning up of the code I wrote along with debugging.
+## Contributing
 
-- **utils.py**:
-  Contains a variety of general helper functions.
+Contributions are welcome! If you find any issues or want to add new features, feel free to submit a pull request.
 
-This organization provides clear headings and subheadings for each section and improves the readability and understanding of the file structure in the repository.

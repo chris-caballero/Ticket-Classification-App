@@ -1,6 +1,6 @@
 # SupportMe - Text Classification App
 
-SupportMe is a web-based text classification application designed to categorize support tickets into different topics. This project demonstrates the end-to-end process of building a text classification application, from data preprocessing to model deployment. The model used, called the EncoderTransformer or ET for short, is a custom language model I developed using PyTorch.
+SupportMe is a web-based text classification application designed to categorize support tickets into different topics. This project demonstrates the end-to-end process of building a full-stack text classification app, from data preprocessing to model inference. The model used, called the EncoderTransformer or ET for short, is a custom language model I developed using PyTorch.
 <br><br>
 **Note:** This repository used to contain the original model, training and data processing code. Along with a comparative research paper on the project. Since 8/18/2023 this project has been moved [here](https://github.com/chris-caballero/Ticket-Classification-Data.git).
 
@@ -22,8 +22,8 @@ User-friendly web interface for text input and classification
 ## Project Structure
 
 - **client**: Contains the frontend code of the web application, including HTML, CSS, and JavaScript files.
-- **models**: Holds the trained text classification model and related utilities.
 - **server**: Contains the backend code for the Flask web server.
+- **server/models**: Holds the trained text classification model, schema module and related utilities.
 
 ## Getting Started
 
@@ -65,11 +65,11 @@ User-friendly web interface for text input and classification
 
 ## Future Enhancements
 
+- Deploy the application to a cloud platform for wider accessibility.
 - Implement user authentication and user-specific saved classifications.
 - Add support for additional models and fine-tuning options.
 - Improve UI/UX design and responsiveness.
 - Enhance error handling and logging.
-- Deploy the application to a cloud platform for wider accessibility.
 - Add synthetic FAQ database for modeling a support website functionality. This will use the model for topic embeddings and compare user request with the embedding indexed database.
 
 ## Contributing

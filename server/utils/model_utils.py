@@ -35,11 +35,12 @@ def load_model(model_type, vocab_size, embedding_dim, block_size, num_classes):
     Returns:
         torch.nn.Module: Loaded model.
     """
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     filename = f'text_classification_{model_type}.pth'
     path = models_path / filename
 
     model = EncoderTransformer(vocab_size, embedding_dim, block_size, num_classes)
-    model.load_state_dict(torch.load(path))
+    model.load_state_dict(torch.load(path, map_location=device))
 
     return model
 

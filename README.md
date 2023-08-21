@@ -55,19 +55,26 @@ To download the image from my Docker Hub repository.
    git clone https://github.com/chris-caballero/Ticket-Classification.git
    ```
 
-2. Install the required Python packages:
+2. Set up and activate a virtual environment:
+
+   ```bash
+   python3 -m venv <environment-name>
+   source <environment-name>/bin/activate
+   ```
+
+4. Install the required Python packages:
 
    ```bash
    pip install -r requirements.txt
    ```
 
-3. Run the Flask web server:
+5. Run the Flask web server:
 
    ```bash
    python app.py
    ```
 
-4. Open your web browser and navigate to `http://localhost:5000` to access the SupportMe app.
+6. Open your web browser and navigate to `http://localhost:5000` to access the SupportMe app.
 
 ## Technologies Used
 

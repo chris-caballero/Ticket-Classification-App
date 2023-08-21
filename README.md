@@ -19,19 +19,40 @@ Choose between two different models:
 
 User-friendly web interface for text input and classification
 
-## Project Structure
-
-- **client**: Contains the frontend code of the web application, including HTML, CSS, and JavaScript files.
-- **server**: Contains the backend code for the Flask web server.
-- **server/models**: Holds the trained text classification model, schema module and related utilities.
-
 ## Getting Started
-
+[![Docker Repository](https://img.shields.io/badge/Docker%20Hub-Repository-blue)](https://hub.docker.com/repository/docker/chrismcaballero/ticket-classification/general) <br>
+To download the image from my Docker Hub repository.
+### Run with Docker
 1. Clone the repository:
 
    ```bash
    git clone https://github.com/chris-caballero/Ticket-Classification.git
-   cd supportme-text-classification
+   ```
+
+2. Build the docker image:
+
+   ```bash
+   docker build -t <image-name> .
+   ```
+
+2. Run the container:
+
+   ```bash
+   docker run -p 5000:5000 -d <image-name>
+   ```
+
+3. Pull up the local site:
+
+   ```bash
+   http://127.0.0.1:5000
+   ```
+
+
+### Run Locally without Docker
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/chris-caballero/Ticket-Classification.git
    ```
 
 2. Install the required Python packages:
@@ -55,6 +76,7 @@ User-friendly web interface for text input and classification
 - PyTorch
 - Transformers
 - Bootstrap
+- Docker
 
 ## How It Works
 
@@ -62,6 +84,12 @@ User-friendly web interface for text input and classification
 2. The frontend sends the text and model type to the backend API.
 3. The backend preprocesses the text and uses the selected model to predict the topic.
 4. The predicted topic is displayed on the web interface.
+
+## Project Structure
+
+- **client**: Contains the frontend code of the web application, including HTML, CSS, and JavaScript files.
+- **server**: Contains the backend code for the Flask web server.
+- **server/models**: Holds the trained text classification model, schema module and related utilities.
 
 ## Future Enhancements
 

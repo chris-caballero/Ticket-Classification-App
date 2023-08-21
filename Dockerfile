@@ -5,6 +5,7 @@ WORKDIR /app
 # add requirements and install without cache for reduced storage overhead (for local deployments)
 COPY requirements.txt /app/requirements.txt
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
+RUN python3 -m pip install torch --index-url https://download.pytorch.org/whl/cpu
 RUN python3 -m spacy download en_core_web_sm
 
 

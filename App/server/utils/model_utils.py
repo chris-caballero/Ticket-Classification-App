@@ -1,9 +1,17 @@
-import os
 import torch
 # from google.cloud import storage
 from models.model_schema.model import EncoderTransformer
 from transformers import AutoTokenizer
 from .preprocessing_utils import preprocessing_fn
+import os
+from pathlib import Path
+
+# Define a module-level variable for the models directory
+MODELS_DIR = "models/trained_models"
+
+# Construct an absolute path to the models directory
+project_root = Path(__file__).resolve().parent.parent  # Adjust this based on your project structure
+models_path = project_root / MODELS_DIR
 
 topics = [
     'Bank Account Services',
@@ -28,7 +36,7 @@ def load_model(model_type, vocab_size, embedding_dim, block_size, num_classes):
         torch.nn.Module: Loaded model.
     """
     filename = f'text_classification_{model_type}.pth'
-    path = f'models/trained_models/' + filename
+    path = models_path / filename
 
     model = EncoderTransformer(vocab_size, embedding_dim, block_size, num_classes)
     model.load_state_dict(torch.load(path))

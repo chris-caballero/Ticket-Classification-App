@@ -2,6 +2,7 @@ import html
 import logging
 
 from flask import Flask, request, jsonify, send_from_directory
+from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_caching import Cache
@@ -25,7 +26,8 @@ model = load_model(
 )
 
 # Create a Flask app instance
-app = Flask(__name__, static_folder='../')
+app = Flask(__name__)
+CORS(app, origins=['https://chris-caballero.github.io'])
 
 # Set up rate limiting using Flask Limiter
 limiter = Limiter(
@@ -37,16 +39,6 @@ limiter = Limiter(
 
 # Set up caching using Flask Cache
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
-
-# Route to serve the index.html file
-@app.route('/')
-def serve_index():
-    return send_from_directory('../', 'index.html')
-
-# Route to serve static files (CSS, JavaScript, etc.)
-@app.route('/<path:filename>')
-def serve_static(filename):
-    return send_from_directory('../', filename)
 
 # Route to select the model type
 @app.route('/select_model', methods=['POST'])

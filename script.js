@@ -3,7 +3,7 @@ const classifyButton = document.getElementById('custom-button');
 const inputText = document.getElementById('text-area-1');
 const resultDiv = document.getElementById('result');
 
-const baseUrl = 'https://chris-caballero.github.io/Ticket-Classification-App';
+const baseUrl = 'https://chrismcaballero.pythonanywhere.com';
 
 
 // Function to classify the text when the "Submit" button is clicked

@@ -3,6 +3,9 @@ const classifyButton = document.getElementById('custom-button');
 const inputText = document.getElementById('text-area-1');
 const resultDiv = document.getElementById('result');
 
+const baseUrl = 'https://chris-caballero.github.io/Ticket-Classification-App';
+
+
 // Function to classify the text when the "Submit" button is clicked
 function classifyText(event) {
     event.preventDefault();  // Prevent the default form submission
@@ -24,7 +27,7 @@ function classifyText(event) {
     resultDiv.innerHTML = 'Classifying...';  // Display a message while classifying
 
     // Send text to backend API for classification
-    fetch('/classify', {
+    fetch('${baseUrl}/classify', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'  // Specify JSON content type
@@ -65,7 +68,7 @@ function selectModel(button) {
 
     console.log('Choosing new model:', model_type);
     // Send a POST request to the server to select the model
-    fetch('/select_model', {
+    fetch('${baseUrl}/select_model', {
         method: 'POST',
         headers: {
         'Content-Type': 'application/x-www-form-urlencoded'

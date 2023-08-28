@@ -25,7 +25,7 @@ model = load_model(
 )
 
 # Create a Flask app instance
-app = Flask(__name__, static_folder='../client')
+app = Flask(__name__, static_folder='..')
 
 # Set up rate limiting using Flask Limiter
 limiter = Limiter(
@@ -41,12 +41,12 @@ cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 # Route to serve the index.html file
 @app.route('/')
 def serve_index():
-    return send_from_directory('../client', 'index.html')
+    return send_from_directory('..', 'index.html')
 
 # Route to serve static files (CSS, JavaScript, etc.)
 @app.route('/<path:filename>')
 def serve_static(filename):
-    return send_from_directory('../client', filename)
+    return send_from_directory('..', filename)
 
 # Route to select the model type
 @app.route('/select_model', methods=['POST'])

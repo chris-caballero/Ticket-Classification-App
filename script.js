@@ -27,7 +27,7 @@ function classifyText(event) {
     resultDiv.innerHTML = 'Classifying...';  // Display a message while classifying
 
     // Send text to backend API for classification
-    fetch('${baseUrl}/classify', {
+    fetch(`${baseUrl}/classify`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'  // Specify JSON content type
@@ -68,7 +68,7 @@ function selectModel(button) {
 
     console.log('Choosing new model:', model_type);
     // Send a POST request to the server to select the model
-    fetch('${baseUrl}/select_model', {
+    fetch(`${baseUrl}/select_model`, {
         method: 'POST',
         headers: {
         'Content-Type': 'application/x-www-form-urlencoded'

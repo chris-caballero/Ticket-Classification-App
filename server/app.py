@@ -25,7 +25,7 @@ model = load_model(
 )
 
 # Create a Flask app instance
-app = Flask(__name__, static_folder='..')
+app = Flask(__name__, static_folder='../')
 
 # Set up rate limiting using Flask Limiter
 limiter = Limiter(
@@ -41,12 +41,12 @@ cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 # Route to serve the index.html file
 @app.route('/')
 def serve_index():
-    return send_from_directory('..', 'index.html')
+    return send_from_directory('../', 'index.html')
 
 # Route to serve static files (CSS, JavaScript, etc.)
 @app.route('/<path:filename>')
 def serve_static(filename):
-    return send_from_directory('..', filename)
+    return send_from_directory('../', filename)
 
 # Route to select the model type
 @app.route('/select_model', methods=['POST'])
@@ -93,7 +93,3 @@ def classify():
     except Exception as e:
         logger.error(f"Error in /classify: {e}")
         return jsonify({'error': 'An error occurred while classifying the text.'}), 500
-
-# Run the app if executed as the main script
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)

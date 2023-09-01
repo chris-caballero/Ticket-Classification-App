@@ -2,7 +2,7 @@
 
 SupportMe is a web-based text classification application designed to categorize support tickets into different topics. This project demonstrates the end-to-end process of building a full-stack text classification app, from data preprocessing to model inference. The model used, called the EncoderTransformer or ET for short, is a custom language model I developed using PyTorch.
 <br><br>
-**Note:** This repository used to contain the original model, training and data processing code. Along with a comparative research paper on the project. Since 8/18/2023 this project has been moved [here](https://github.com/chris-caballero/Ticket-Classification-Data.git).
+**Note:** This repository used to contain the original model, training and data processing code. Along with a comparative research paper on the project. Since 8/18/2023 these components have been moved [here](https://github.com/chris-caballero/Ticket-Classification-Data.git).
 
 ## Features
 

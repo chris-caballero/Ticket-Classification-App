@@ -134,3 +134,5 @@ def classify():
         logger.error(f"Error in /classify: {e}")
         return jsonify({'error': 'An error occurred while classifying the text.'}), 500
 
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)

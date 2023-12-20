@@ -3,6 +3,46 @@ const classifyButton = document.getElementById('custom-button');
 const inputText = document.getElementById('text-area-1');
 const resultDiv = document.getElementById('result');
 
+const baseUrl = 'https://chrismcaballero.pythonanywhere.com';
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    showLoadingScreen();
+    loadModel();
+});
+
+function showLoadingScreen() {
+    var loadingScreen = document.getElementById('loadingScreen');
+    loadingScreen.style.display = 'flex'; // Use 'flex' to show the loading screen (as per your CSS)
+}
+
+function hideLoadingScreen() {
+    var loadingScreen = document.getElementById('loadingScreen');
+    loadingScreen.style.display = 'none'; // Hide the loading screen
+}
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    // Show loading screen when the page loads
+    showLoadingScreen();
+    
+    // Example: Call to load your model
+    loadModel();
+});
+
+
+function loadModel() {
+    fetch(`${baseUrl}/load_model`)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data); // Log the response for debugging
+        hideLoadingScreen();
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        hideLoadingScreen(); // Hide loading screen even if there's an error
+    });
+}
+
+
 // Function to classify the text when the "Submit" button is clicked
 function classifyText(event) {
     event.preventDefault();  // Prevent the default form submission
@@ -24,7 +64,7 @@ function classifyText(event) {
     resultDiv.innerHTML = 'Classifying...';  // Display a message while classifying
 
     // Send text to backend API for classification
-    fetch('/classify', {
+    fetch(`${baseUrl}/classify`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'  // Specify JSON content type
@@ -65,7 +105,7 @@ function selectModel(button) {
 
     console.log('Choosing new model:', model_type);
     // Send a POST request to the server to select the model
-    fetch('/select_model', {
+    fetch(`${baseUrl}/select_model`, {
         method: 'POST',
         headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -92,3 +132,4 @@ function updateCharacterCount() {
 
 // Call the character count update function initially
 updateCharacterCount();
+

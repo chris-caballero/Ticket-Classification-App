@@ -1,7 +1,7 @@
 # Importing necessary libraries and modules
 import html
 import logging
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS, cross_origin
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -20,8 +20,9 @@ tokenizer = load_tokenizer()
 # Flask Application Setup
 # ------------------------
 # Creating Flask app instance and configuring CORS, Rate Limiting, and Caching
-app = Flask(__name__, static_folder='static')
-CORS(app, origins=['https://chris-caballero.github.io'])
+app = Flask(__name__)
+# CORS(app, origins=["https://chris-caballero.github.io"])
+
 limiter = Limiter(
     app=app,
     key_func=get_remote_address,
@@ -29,13 +30,10 @@ limiter = Limiter(
     storage_uri='memory://'
 )
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
-cache.set(model_type, model)
 
 # Flask Routes
 # ------------
 
-
-# Route to serve the index.html file
 @app.route('/')
 def serve_index():
     return send_from_directory('../client', 'index.html')
@@ -47,17 +45,28 @@ def serve_static(filename):
 
 # Model Loading Route - To load the model dynamically
 @app.route('/load_model', methods=['GET'])
+@cross_origin()
 def load_model_route():
     try:
         global model
         if 'model' not in globals():
             model = load_model(
-                model_type=model_type,
+                model_type='pos',
                 vocab_size=len(tokenizer.vocab),
                 embedding_dim=EMBEDDING_DIM,
                 block_size=BLOCK_SIZE,
                 num_classes=NUM_CLASSES
             )
+            cache.set('pos', model)
+
+            model = load_model(
+                model_type='no-pos',
+                vocab_size=len(tokenizer.vocab),
+                embedding_dim=EMBEDDING_DIM,
+                block_size=BLOCK_SIZE,
+                num_classes=NUM_CLASSES
+            )
+            cache.set('no-pos', model)
         return jsonify({'status': 'Model loaded successfully'}), 200
     except Exception as e:
         logger.error(f"Error in /load_model: {e}")

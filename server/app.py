@@ -34,6 +34,17 @@ cache.set(model_type, model)
 # Flask Routes
 # ------------
 
+
+# Route to serve the index.html file
+@app.route('/')
+def serve_index():
+    return send_from_directory('../client', 'index.html')
+
+# Route to serve static files (CSS, JavaScript, etc.)
+@app.route('/<path:filename>')
+def serve_static(filename):
+    return send_from_directory('../client', filename)
+
 # Model Loading Route - To load the model dynamically
 @app.route('/load_model', methods=['GET'])
 def load_model_route():
